@@ -3,6 +3,7 @@ package com.fennec.authservice.service;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -41,22 +42,22 @@ public class LoginService {
 
 		Instant now = Instant.now();
 		Long expiresIn = 300L;
-	//@formatter:off
-    String scopes =
-        user.get()
-            .getRoles()
-            .stream()
-            .map(Role::getName)
-            .collect(Collectors.joining(" "));
-
-    JwtClaimsSet claims = JwtClaimsSet.builder()
-        .issuer("mybackend")
-        .subject(user.get().getUserId().toString())
-        .issuedAt(now)
-        .expiresAt(now.plusSeconds(expiresIn))
-        .claim("scope", scopes)
-        .build();
-    //@formatter:on
+		//@formatter:off
+	    String scopes =
+	        user.get()
+	            .getRoles()
+	            .stream()
+	            .map(Role::getName)
+	            .collect(Collectors.joining(" "));
+	
+	    JwtClaimsSet claims = JwtClaimsSet.builder()
+	        .issuer("mybackend")
+	        .subject(user.get().getUserId().toString())
+	        .issuedAt(now)
+	        .expiresAt(now.plusSeconds(expiresIn))
+	        .claim("scope", scopes)
+	        .build();
+	    //@formatter:on
 
 		String jwtValue = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 

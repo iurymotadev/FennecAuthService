@@ -40,8 +40,7 @@ public class SecurityConfig {
         .cors(cors -> cors.getClass())
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-            .requestMatchers(HttpMethod.POST, "/register")
-            .permitAll()
+            .requestMatchers(HttpMethod.POST, "/register").hasAuthority("SCOPE_admin")
             .requestMatchers(HttpMethod.POST, "/login")
             .permitAll()
             .requestMatchers(HttpMethod.GET, "/demo").hasAnyAuthority("SCOPE_basic", "SCOPE_admin")
